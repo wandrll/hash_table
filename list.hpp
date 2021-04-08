@@ -19,7 +19,14 @@
 /**
  * Type of element  
  */
-typedef const char* list_elem;
+
+struct Pair{
+    const char* key;
+    const char* value;
+};
+
+
+typedef Pair list_elem;
 
 struct Node{
     list_elem value;

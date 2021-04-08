@@ -7,8 +7,8 @@
 
 
 void constructor(Hash_table* ths){
-    ths->values = (List**)calloc(1024, sizeof(List*));
-    ths->keys = (List**)calloc(1024, sizeof(List*));
+    ths->data = (List**)calloc(1024, sizeof(List*));
+
 
     ths->load_factor = 0;
     ths->size = 0;
@@ -19,17 +19,15 @@ void constructor(Hash_table* ths){
 static void free_buckets(Hash_table* ths){
 
     for(int i = 0; i < ths->bucket_count; i++){
-        if(ths->keys[i]){
-            Delete_List(ths->keys[i]);
-            Delete_List(ths->values[i]);
+        if(ths->data[i]){
+            Delete_List(ths->data[i]);
         }
     }
 }
 
 void destructor(Hash_table* ths){
     free_buckets(ths);
-    free(ths->keys);
-    free(ths->values);
+    free(ths->data);
 }
 
 
@@ -52,48 +50,42 @@ static unsigned long long hash(const char* line){
 
 
 static void resize(Hash_table* ths){
-    List** new_keys   = (List**)calloc(ths->bucket_count*2, sizeof(List*));
-    List** new_values = (List**)calloc(ths->bucket_count*2, sizeof(List*));
+    List** new_data   = (List**)calloc(ths->bucket_count*2, sizeof(List*));
 
     size_t count = ths->bucket_count;
     ths->bucket_count = ths->bucket_count*2;
 
     for(size_t i = 0; i < count; i++){
         
-        if(ths->keys[i]){
-            const size_t curr_count = ths->keys[i]->size;
+        if(ths->data[i]){
+
+            const size_t curr_count = ths->data[i]->size;
+            
             for(int j = 0; j < curr_count; j++){
 
-                const char* curr_key = NULL;
-                list_pop_back(ths->keys[i], &curr_key);
+                Pair curr = {};
+                list_pop_back(ths->data[i], &curr);
 
-                const char* curr_val = NULL;
-                list_pop_back(ths->values[i], &curr_val);
+                size_t index = hash(curr.key)%(ths->bucket_count);
 
-                size_t index = hash(curr_key)%(ths->bucket_count);
-
-                if(new_keys[index]){
-                    list_push_front(new_keys[index], curr_key);
-                    list_push_front(new_values[index], curr_val);
+                if(new_data[index]){
+                    list_push_front(new_data[index], {curr.key, curr.value});
 
                 }else{
-                    new_keys[index] = New_List();
-                    new_values[index] = New_List();
+                    new_data[index] = New_List();
 
-                    list_push_front(new_keys[index], curr_key);
-                    list_push_front(new_values[index], curr_val);
+                    list_push_front(new_data[index], {curr.key, curr.value});
                 }
 
             }
-            Delete_List(ths->keys[i]);
-            Delete_List(ths->values[i]);
+            Delete_List(ths->data[i]);
 
         }
     }
-    free(ths->keys);
-    free(ths->values);
-    ths->keys = new_keys;
-    ths->values = new_values;
+    free(ths->data);
+    // free(ths->values);
+    // ths->keys = new_keys;
+    ths->data = new_data;
     update_load_factor(ths);
 
 
@@ -105,16 +97,13 @@ static void resize(Hash_table* ths){
 void insert(Hash_table* ths, const char* key, const char* value){
     size_t index = hash(key)%(ths->bucket_count);
     
-    if(ths->keys[index]){
-        list_push_front(ths->keys[index], key);
-        list_push_front(ths->values[index], value);
+    if(ths->data[index]){
+        list_push_front(ths->data[index], {key, value});
 
     }else{
-        ths->keys[index] = New_List();
-        ths->values[index] = New_List();
+        ths->data[index] = New_List();
 
-        list_push_front(ths->keys[index], key);
-        list_push_front(ths->values[index], value);
+        list_push_front(ths->data[index], {key, value});
     }
     
     ths->size++;
@@ -129,18 +118,19 @@ void insert(Hash_table* ths, const char* key, const char* value){
 bool get(Hash_table* ths, const char* key, const char** result){
     size_t index = hash(key)%(ths->bucket_count);
     
-    if(!ths->keys[index]){
+    if(!ths->data[index]){
         return false;
     }
 
-    size_t count = ths->keys[index]->size;
+    size_t count = ths->data[index]->size;
 
     for(size_t i = 1; i <= count; i++){
-        const char* curr = NULL;
-        list_get_value_by_index(ths->keys[index], i, &curr);
+        Pair curr = {};
+        list_get_value_by_index(ths->data[index], i, &curr);
 
-        if(strcmp(key, curr) == 0){
-            list_get_value_by_index(ths->values[index], i, result);
+        if(strcmp(key, curr.key) == 0){
+            *result = curr.value;
+            // list_get_value_by_index(ths->values[index], i, result);
             
             return true;
         }

@@ -250,8 +250,8 @@ list_codes list_get_value_by_index(List* ls, size_t ind, list_elem* res){
     long long node_size = sizeof(Node);
     // long long res_size =  sizeof(list_elem);
     // printf("%lld\n", node_size);
-    list_elem resl = NULL;
-
+    // list_elem resl = NULL;
+/*
     __asm__( ".intel_syntax noprefix\n "
              "mov rax, %4\n"
              "mov rbx, %2\n"
@@ -273,9 +273,9 @@ list_codes list_get_value_by_index(List* ls, size_t ind, list_elem* res){
             :"rax", "rbx", "rdx"      );
 
     // printf("%p %p\n", ls->data[ind].value, resl);
+*/
 
-
-    // *res = ls->data[ind].value;
+    *res = ls->data[ind].value;
     return LIST_OK;
 }
 
@@ -487,7 +487,7 @@ list_codes list_erase_by_index(List* ls, list_elem* value, size_t index){
     *value = ls->data[index].value;
     ls->data[index].next = ls->free;
     ls->data[index].prev = -1;
-    ls->data[index].value = 0;
+    // ls->data[index].value = {0, 0};
     ls->free = index;
     
     ls->size--;

@@ -8,8 +8,7 @@ const double max_load_factor = 0.75;
 
 
 struct Hash_table{
-    List** values;
-    List** keys;
+    List** data;
 
     long long size;
     long long bucket_count;
