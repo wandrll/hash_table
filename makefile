@@ -11,7 +11,7 @@ main.o: main.cpp hash_table.hpp
 	g++ $(CFLAGS) main.cpp
 
 list.o: list.cpp list.hpp
-	g++ $(CFLAGS) list.cpp
+	g++ $(CFLAGS) list.cpp -masm=intel
 
 hash_table.o: hash_table.cpp hash_table.hpp
 	g++ $(CFLAGS) hash_table.cpp
