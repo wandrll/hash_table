@@ -3,8 +3,6 @@
 
 default rel
 
-extern get_descriptor
-
 global list_get_value_by_index
 
 section .text

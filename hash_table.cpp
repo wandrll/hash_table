@@ -50,6 +50,7 @@ static unsigned long long hash(const char* line){
 }
 
 
+
 static void resize(Hash_table* ths){
     List** new_data   = (List**)calloc(ths->bucket_count*2, sizeof(List*));
 
