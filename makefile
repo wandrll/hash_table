@@ -4,8 +4,8 @@ TMP = -fsanitize=address -fsanitize=alignment -fsanitize=bool -fsanitize=bounds 
 CTEMP=-Wall -Werror -Wextra -pedantic -Wshadow -Wconversion -Wsign-conversion
 all: dict
 
-dict: main.o list.o hash_table.o dictionary.o hash_table.hpp list.hpp dictionary.hpp
-	g++ $(LDFLAGS) main.o list.o hash_table.o dictionary.o -o dict 
+dict: main.o list.o hash_table.o dictionary.o get_value.o hash_table.hpp list.hpp dictionary.hpp
+	g++ $(LDFLAGS) main.o list.o hash_table.o dictionary.o get_value.o -o dict 
 
 main.o: main.cpp hash_table.hpp
 	g++ $(CFLAGS) main.cpp
@@ -18,6 +18,9 @@ hash_table.o: hash_table.cpp hash_table.hpp
 
 dictionary.o: dictionary.cpp dictionary.hpp
 	g++ $(CFLAGS) dictionary.cpp
+
+get_value.o: get_value.nas
+	nasm -f elf64 get_value.nas
 
 
 clean:

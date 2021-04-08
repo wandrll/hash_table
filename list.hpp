@@ -173,7 +173,8 @@ list_codes list_get_prev_index(List* ls, size_t ind, size_t* res);
  * \param ind index
  * \param res pointer where to save value
  */
-list_codes list_get_value_by_index(List* ls, size_t ind, list_elem* res);
+extern "C" list_codes list_get_value_by_index(List* ls, size_t ind, Pair* res);
+
 
 /**
  * Get element by position
