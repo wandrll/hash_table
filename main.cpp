@@ -69,7 +69,7 @@ int main(){
     }
     // const char* result = NULL;
 
-    // get_def(&dict, "японцы", &result);
+    // get_def(&dict, "яхта", &result);
     // print_dictionary(&dict);
     // printf("%s", result);
     unload_dictionary(&dict);

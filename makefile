@@ -11,10 +11,10 @@ main.o: main.cpp hash_table.hpp
 	g++ $(CFLAGS) main.cpp
 
 list.o: list.cpp list.hpp
-	g++ $(CFLAGS) list.cpp -masm=intel
+	g++ $(CFLAGS) list.cpp
 
 hash_table.o: hash_table.cpp hash_table.hpp
-	g++ $(CFLAGS) hash_table.cpp
+	g++ $(CFLAGS) hash_table.cpp -masm=intel
 
 dictionary.o: dictionary.cpp dictionary.hpp
 	g++ $(CFLAGS) dictionary.cpp

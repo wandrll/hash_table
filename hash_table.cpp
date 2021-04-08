@@ -2,6 +2,7 @@
 #include <assert.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include "list.hpp"
 #include "hash_table.hpp"
 
@@ -116,28 +117,51 @@ void insert(Hash_table* ths, const char* key, const char* value){
     }
 }
 
+// static inline size_t ret_count(Hash_table* ths, size_t index){
+        // return ths->data[index]->size;
+// }
 
 bool get(Hash_table* ths, const char* key, const char** result){
+
+    // unsigned first = clock();
+
     size_t index = hash(key)%(ths->bucket_count);
     
     if(!ths->data[index]){
         return false;
     }
 
-    size_t count = ths->data[index]->size;
+    size_t count = 0;
+
+    asm(".intel_syntax noprefix\n\t" 
+        "mov rbx, %2\n"
+        "shl rbx, 3\n"
+        "mov rax, [%1]\n"
+        "mov rax, [rax + rbx]\n"
+        "mov %0, [rax + 8]\n"
+        "\n"
+        "\n"
+        "\n"         
+        :"=r"(count)                     
+        :"r"(ths), "r"(index)              
+        : "rax", "rbx"                     
+    );
+
+    // size_t count = ths->data[index]->size;
+
+    Pair curr = {};
 
     for(size_t i = 1; i <= count; i++){
-        Pair curr = {};
         list_get_value_by_index(ths->data[index], i, &curr);
+
 
         if(strcmp(key, curr.key) == 0){
             *result = curr.value;
-            // list_get_value_by_index(ths->values[index], i, result);
-            
+    
             return true;
         }
     }
-    
+
     return false;
 }
 
