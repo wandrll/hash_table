@@ -110,6 +110,8 @@ void insert(Hash_table* ths, const char* key, const char* value){
     update_load_factor(ths);
     
     if(ths->load_factor > max_load_factor){
+        // printf("lfactor = %lg, size = %lld, buckets = %lld\n", ths->load_factor, ths->size, ths->bucket_count);
+
         resize(ths);
     }
 }

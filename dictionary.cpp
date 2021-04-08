@@ -130,9 +130,22 @@ bool get_def(Dictionary* ths, const char* word, const char** res){
     return get(ths->table, word, res);
 }
 
+void print_lengths(Hash_table* ths){
+    for(int i = 0; i < ths->bucket_count; i++){
+        if(!ths->data[i]){
+            printf("0\n");
+        }else{
+            printf("%lld\n",ths->data[i]->size);
+        }
+    }
+}
+
 void get_test(Dictionary* ths){
     const char* result = NULL;
     for(int i = 0; i < ths->size; i++){
         bool res = get_def(ths, ths->word[i], &result);
     }
+
+    // print_lengths(ths->table);
+
 }
