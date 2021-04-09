@@ -132,8 +132,8 @@ bool get(Hash_table* ths, const char* key, const char** result){
         return false;
     }
 
-    size_t count = 0;
-
+    // size_t count = 0;
+/*
     asm(".intel_syntax noprefix\n\t" 
         "mov rbx, %2\n"
         "shl rbx, 3\n"
@@ -147,8 +147,8 @@ bool get(Hash_table* ths, const char* key, const char** result){
         :"r"(ths), "r"(index)              
         : "rax", "rbx"                     
     );
-
-    // size_t count = ths->data[index]->size;
+*/
+    size_t count = ths->data[index]->size;
 
     Pair curr = {};
 
