@@ -36,6 +36,9 @@ static inline void update_load_factor(Hash_table* ths){
     ths->load_factor = ((double)(ths->size))/((double)(ths->bucket_count));
 }
 
+
+
+/*
 static unsigned long long hash(const char* line){
     
     unsigned long long hash = 5381;
@@ -45,8 +48,21 @@ static unsigned long long hash(const char* line){
         line++;
     }
 
+    return hash; 
+}*/
+
+static unsigned long long hash(const char* line){
+    
+    unsigned long long hash = 0;
+
+    while (*((unsigned long long*)line)){
+        hash = _mm_crc32_u64(hash, *((unsigned long long*)line));
+        line+=8;
+    }
+
     return hash;
- 
+
+
 }
 
 

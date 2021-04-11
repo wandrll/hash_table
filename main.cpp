@@ -56,58 +56,28 @@ list_codes list_get_value_by_index(List* ls, size_t ind, list_elem* res){
 */
 
 
-static unsigned long long hash_64(const char* line){
-    
-    unsigned long long hash = 0;
-
-    while (*((unsigned long long*)line)){
-        hash = _mm_crc32_u64(hash, *((unsigned long long*)line));
-        line+=8;
-    }
-
-    return hash;
-
-
-}
-
-
-static unsigned long long hash_8(const char* line){
-    
-    unsigned long long hash = 0;
-
-    while (*(line)){
-        hash = _mm_crc32_u8(hash, *(line));
-        line++;
-    }
-
-    return hash;
-
-}
 
 
 
-static unsigned long long hash(const char* line){
-    
-    unsigned long long hash = 5381;
-  
-    while (*line){
-        hash = ((hash << 5) + hash) + *line;
-        line++;
-    }
 
-    return hash;
- 
-}
+
 
 
 
 
 int main(){
-    // Dictionary dict = {};
+    Dictionary dict = {};
 
-    // load_dictionary(&dict, "dict.txt");
+    // char* input = (char*)calloc(80, sizeof(char));
 
-    char* line = (char*)calloc(32, sizeof(char));
+    // fgets(input, 72, stdin);
+
+    // input[strlen(input) - 1] = 0;
+
+
+    load_dictionary(&dict, "dict.txt");
+
+   /* char* line = (char*)calloc(32, sizeof(char));
     const char* test_line = "Hello peopleijefife";
 
     memcpy(line, test_line, strlen(test_line));
@@ -144,20 +114,20 @@ int main(){
 
     printf("3: %d\n", end - begin);
 
+*/
+    build_hash_table(&dict);
 
-    // build_hash_table(&dict);
-
-    //  for(int i = 0; i < 100; i++){
-        // get_test(&dict);
-    // }
+    for(int i = 0; i < 100; i++){
+        get_test(&dict);
+    }
     // const char* result = NULL;
 
-    // get_def(&dict, "user", &result);
+    // get_def(&dict, input, &result);
     // print_dictionary(&dict);
     // printf("%s", result);
     // fflush(stdout);
-    // unload_dictionary(&dict);
+    unload_dictionary(&dict);
 
 
-
+    // free(input);
 }
