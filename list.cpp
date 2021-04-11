@@ -434,10 +434,6 @@ list_codes list_erase_by_index(List* ls, list_elem* value, size_t index){
         ls->is_ordered = false;
     }
 
-    if(ls->tail != index){
-        ls->is_ordered = false;
-    }
-
     ls->data[ls->data[index].next].prev = ls->data[index].prev;
     ls->data[ls->data[index].prev].next = ls->data[index].next;
 

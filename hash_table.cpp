@@ -51,7 +51,7 @@ static unsigned long long hash(const char* line){
     return hash; 
 }*/
 
-static unsigned long long hash(const char* line){
+static unsigned long long hash_64(const char* line){
     
     unsigned long long hash = 0;
 
@@ -86,7 +86,7 @@ static void resize(Hash_table* ths){
                 Pair curr = {};
                 list_pop_back(ths->data[i], &curr);
 
-                size_t index = hash(curr.key)%(ths->bucket_count);
+                size_t index = hash_64(curr.key)%(ths->bucket_count);
 
                 if(new_data[index]){
                     list_push_front(new_data[index], {curr.key, curr.value});
@@ -115,8 +115,16 @@ static void resize(Hash_table* ths){
 
 
 void insert(Hash_table* ths, const char* key, const char* value){
-    size_t index = hash(key)%(ths->bucket_count);
+    size_t index = hash_64(key)%(ths->bucket_count);
+
+    const char* res = NULL;
     
+    if(get(ths, key, &res)){
+        printf("Error you cant insert %s --%s. There is pair %s -- %s\n",key, value, key, res);
+        return;
+    }    
+
+
     if(ths->data[index]){
         list_push_front(ths->data[index], {key, value});
 
@@ -144,30 +152,14 @@ bool get(Hash_table* ths, const char* key, const char** result){
 
     // unsigned first = clock();
 
-    size_t index = hash(key)%(ths->bucket_count);
+    size_t index = hash_64(key)%(ths->bucket_count);
     
     if(!ths->data[index]){
         return false;
     }
 
-    // size_t count = 0;
-/*
-    asm(".intel_syntax noprefix\n\t" 
-        "mov rbx, %2\n"
-        "shl rbx, 3\n"
-        "mov rax, [%1]\n"
-        "mov rax, [rax + rbx]\n"
-        "mov %0, [rax + 8]\n"
-        "\n"
-        "\n"
-        "\n"         
-        :"=r"(count)                     
-        :"r"(ths), "r"(index)              
-        : "rax", "rbx"                     
-    );
-*/
     size_t count = ths->data[index]->size;
-
+    // printf("%lld\n", count);
     Pair curr = {};
 
     for(size_t i = 1; i <= count; i++){
@@ -183,4 +175,31 @@ bool get(Hash_table* ths, const char* key, const char** result){
 
     return false;
 }
+
+
+bool remove(Hash_table* ths, const char* key){
+    size_t index = hash_64(key)%(ths->bucket_count);
+    
+    if(!ths->data[index]){
+        return false;
+    }
+
+    size_t count = ths->data[index]->size;
+
+    Pair curr = {};
+
+    for(size_t i = 1; i <= count; i++){
+        list_get_value_by_index(ths->data[index], i, &curr);
+
+
+        if(strcmp(key, curr.key) == 0){
+            list_erase_by_index(ths->data[index], &curr, i);
+            return true;
+        }
+    }
+
+    return false;
+
+}
+
 

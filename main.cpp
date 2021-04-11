@@ -67,15 +67,42 @@ list_codes list_get_value_by_index(List* ls, size_t ind, list_elem* res){
 
 int main(){
     Dictionary dict = {};
-
-    // char* input = (char*)calloc(80, sizeof(char));
-
-    // fgets(input, 72, stdin);
-
-    // input[strlen(input) - 1] = 0;
-
-
+    
     load_dictionary(&dict, "dict.txt");
+
+/*
+    char* input = (char*)calloc(80, sizeof(char));
+
+    fgets(input, 72, stdin);
+
+    input[strlen(input) - 1] = 0;
+
+    const char* value = "blablabla";
+
+
+    Hash_table table = {};
+
+    constructor(&table);
+
+    insert(&table, input, value);
+
+    const char* res = NULL;
+
+    get(&table, input, &res);
+    printf("%s\n", res);
+
+    // printf("%d", );
+
+    remove(&table, input);
+
+    res = NULL;
+
+    get(&table, input, &res);
+    printf("%p\n", res);
+
+
+    destructor(&table);
+*/
 
    /* char* line = (char*)calloc(32, sizeof(char));
     const char* test_line = "Hello peopleijefife";
