@@ -5,7 +5,8 @@
 #include "hash_table.hpp"
 #include "list.hpp"
 #include "dictionary.hpp"
-
+#include <immintrin.h>
+#include <time.h>
 // extern "C" list_codes list_get_value_by_index(List* ls, size_t ind, list_elem* res);
 
 /*
@@ -55,24 +56,107 @@ list_codes list_get_value_by_index(List* ls, size_t ind, list_elem* res){
 */
 
 
+static unsigned long long hash_64(const char* line){
+    
+    unsigned long long hash = 0;
+
+    while (*((unsigned long long*)line)){
+        hash = _mm_crc32_u64(hash, *((unsigned long long*)line));
+        line+=8;
+    }
+
+    return hash;
+
+
+}
+
+
+static unsigned long long hash_8(const char* line){
+    
+    unsigned long long hash = 0;
+
+    while (*(line)){
+        hash = _mm_crc32_u8(hash, *(line));
+        line++;
+    }
+
+    return hash;
+
+}
+
+
+
+static unsigned long long hash(const char* line){
+    
+    unsigned long long hash = 5381;
+  
+    while (*line){
+        hash = ((hash << 5) + hash) + *line;
+        line++;
+    }
+
+    return hash;
+ 
+}
+
+
 
 
 int main(){
-    Dictionary dict = {};
+    // Dictionary dict = {};
 
-    load_dictionary(&dict, "dict.txt");
+    // load_dictionary(&dict, "dict.txt");
 
-    build_hash_table(&dict);
+    char* line = (char*)calloc(32, sizeof(char));
+    const char* test_line = "Hello peopleijefife";
 
-    for(int i = 0; i < 100; i++){
-        get_test(&dict);
+    memcpy(line, test_line, strlen(test_line));
+  
+    clock_t begin = clock();
+
+    // long long res = hash_64(line);
+    // printf("%lld\n", res);
+    for(int i = 0; i < 100000; i++){
+        long long res = hash_64(line);
     }
+
+    clock_t end = clock();
+
+    printf("1: %d\n", end - begin);
+
+    begin = clock();
+    for(int i = 0; i < 100000; i++){
+        long long res = hash(line);
+    }
+
+    end = clock();
+
+    printf("2: %d\n", end - begin);
+
+
+
+    begin = clock();
+    for(int i = 0; i < 100000; i++){
+        long long res = hash_8(line);
+    }
+
+    end = clock();
+
+    printf("3: %d\n", end - begin);
+
+
+    // build_hash_table(&dict);
+
+    //  for(int i = 0; i < 100; i++){
+        // get_test(&dict);
+    // }
     // const char* result = NULL;
 
-    // get_def(&dict, "яхта", &result);
+    // get_def(&dict, "user", &result);
     // print_dictionary(&dict);
     // printf("%s", result);
-    unload_dictionary(&dict);
+    // fflush(stdout);
+    // unload_dictionary(&dict);
 
 
 

@@ -51,11 +51,7 @@ void parse_buffer(Dictionary* ths){
                 currleft = currright;
                 break;
             }
-            case '\r':{
-                *currright = 0;
-                currright++;
-                break;
-            }
+            
             default:{
                 currright++;
                 break;

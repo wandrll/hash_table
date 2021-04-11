@@ -5,7 +5,7 @@
 #include <time.h>
 #include "list.hpp"
 #include "hash_table.hpp"
-
+#include <immintrin.h>
 
 void constructor(Hash_table* ths){
     ths->data = (List**)calloc(1024, sizeof(List*));
@@ -39,15 +39,17 @@ static inline void update_load_factor(Hash_table* ths){
 static unsigned long long hash(const char* line){
     
     unsigned long long hash = 5381;
-    int c = 0;
-
-    while (c = *line){
-        hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
+  
+    while (*line){
+        hash = ((hash << 5) + hash) + *line;
         line++;
     }
 
     return hash;
+ 
 }
+
+
 
 
 
