@@ -18,7 +18,7 @@ int main(){
 
     build_hash_table(&dict);
 
-    for(int i = 0; i < 100; i++){
+    for(int i = 0; i < 1000; i++){
         get_test(&dict);
     }
 
