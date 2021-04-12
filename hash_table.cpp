@@ -140,6 +140,25 @@ bool get(Hash_table* ths, const char* key, const char** result){
     }
 
     size_t count = ths->data[index]->size;
+/*
+    // size_t count = 0;
+     asm(".intel_syntax noprefix\n"
+         "mov rbx, %2\n"            
+         "shl rbx, 3\n"            
+         "mov rax, [%1]\n"
+         "add rax, rbx\n"            
+         "mov rax, [rax]\n"            
+        
+        //  "add rbx, rax\n"            
+           "add rax, 8\n"            
+         "mov %0, [rax]\n"            
+
+         :"=r"(count)                     
+         :"r"(ths), "r"(index)              
+         : "rax", "rbx"                      
+    );
+*/
+    // printf("%lld %lld\n", res, ths->data[index]->size);
 
     Pair curr = {};
 
