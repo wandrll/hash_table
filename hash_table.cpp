@@ -38,19 +38,6 @@ static inline void update_load_factor(Hash_table* ths){
 
 
 
-/*
-static unsigned long long hash(const char* line){
-    
-    unsigned long long hash = 5381;
-  
-    while (*line){
-        hash = ((hash << 5) + hash) + *line;
-        line++;
-    }
-
-    return hash; 
-}*/
-
 static unsigned long long hash_64(const char* line){
     
     unsigned long long hash = 0;
@@ -103,8 +90,7 @@ static void resize(Hash_table* ths){
         }
     }
     free(ths->data);
-    // free(ths->values);
-    // ths->keys = new_keys;
+
     ths->data = new_data;
     update_load_factor(ths);
 
@@ -138,19 +124,14 @@ void insert(Hash_table* ths, const char* key, const char* value){
     update_load_factor(ths);
     
     if(ths->load_factor > max_load_factor){
-        // printf("lfactor = %lg, size = %lld, buckets = %lld\n", ths->load_factor, ths->size, ths->bucket_count);
 
         resize(ths);
     }
 }
 
-// static inline size_t ret_count(Hash_table* ths, size_t index){
-        // return ths->data[index]->size;
-// }
+
 
 bool get(Hash_table* ths, const char* key, const char** result){
-
-    // unsigned first = clock();
 
     size_t index = hash_64(key)%(ths->bucket_count);
     
@@ -159,7 +140,7 @@ bool get(Hash_table* ths, const char* key, const char** result){
     }
 
     size_t count = ths->data[index]->size;
-    // printf("%lld\n", count);
+
     Pair curr = {};
 
     for(size_t i = 1; i <= count; i++){
@@ -174,32 +155,6 @@ bool get(Hash_table* ths, const char* key, const char** result){
     }
 
     return false;
-}
-
-
-bool remove(Hash_table* ths, const char* key){
-    size_t index = hash_64(key)%(ths->bucket_count);
-    
-    if(!ths->data[index]){
-        return false;
-    }
-
-    size_t count = ths->data[index]->size;
-
-    Pair curr = {};
-
-    for(size_t i = 1; i <= count; i++){
-        list_get_value_by_index(ths->data[index], i, &curr);
-
-
-        if(strcmp(key, curr.key) == 0){
-            list_erase_by_index(ths->data[index], &curr, i);
-            return true;
-        }
-    }
-
-    return false;
-
 }
 
 

@@ -25,6 +25,4 @@ void insert(Hash_table* ths, const char* key, const char* value);
 
 bool get(Hash_table* ths, const char* key, const char** result);
 
-bool remove(Hash_table* ths, const char* key);
-
 

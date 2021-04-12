@@ -203,9 +203,9 @@ list_codes list_get_next_index(List* ls, size_t ind, size_t* res){
         }
     )
     
-    if(ind == ls->tail){
-        return LIST_OVERFLOW;
-    }
+    // if(ind == ls->tail){
+        // return LIST_OVERFLOW;
+    // }
     if(ls->data[ind].prev == -1){
         return LIST_WRONG_INDEX;
     }

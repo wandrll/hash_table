@@ -8,7 +8,7 @@ dict: main.o list.o hash_table.o dictionary.o get_value.o hash_table.hpp list.hp
 	g++ $(LDFLAGS) main.o list.o hash_table.o dictionary.o get_value.o -o dict 
 
 main.o: main.cpp hash_table.hpp
-	g++ $(CFLAGS) main.cpp -msse4
+	g++ $(CFLAGS) main.cpp
 
 list.o: list.cpp list.hpp
 	g++ $(CFLAGS) list.cpp
