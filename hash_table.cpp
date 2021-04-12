@@ -135,14 +135,16 @@ bool get(Hash_table* ths, const char* key, const char** result){
 
     size_t index = hash_64(key)%(ths->bucket_count);
     
-    if(!ths->data[index]){
+    List* ptr = ths->data[index]; 
+
+    if(!ptr){
         return false;
     }
 
-    size_t count = ths->data[index]->size;
-/*
+    size_t count = ptr->size;
+
     // size_t count = 0;
-     asm(".intel_syntax noprefix\n"
+    /* asm(".intel_syntax noprefix\n"
          "mov rbx, %2\n"            
          "shl rbx, 3\n"            
          "mov rax, [%1]\n"
@@ -157,13 +159,13 @@ bool get(Hash_table* ths, const char* key, const char** result){
          :"r"(ths), "r"(index)              
          : "rax", "rbx"                      
     );
-*/
+// */
     // printf("%lld %lld\n", res, ths->data[index]->size);
 
     Pair curr = {};
 
     for(size_t i = 1; i <= count; i++){
-        list_get_value_by_index(ths->data[index], i, &curr);
+        list_get_value_by_index(ptr, i, &curr);
 
 
         if(strcmp(key, curr.key) == 0){
