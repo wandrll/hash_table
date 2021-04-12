@@ -196,11 +196,17 @@ void print_lengths(Hash_table* ths){
     }
 }
 
+extern "C" const char* check(Hash_table* ths, const char* key);
+
 void get_test(Dictionary* ths){
     const char* result = NULL;
     for(int i = 0; i < ths->size; i++){
-        bool res = get_def(ths, ths->word[i], &result);
-        if(!res || strcmp(result, ths->def[i]) != 0){
+        
+        result = check(ths->table, ths->word[i]);
+
+        // bool res = get_def(ths, ths->word[i], &result);
+        // printf("%s | %s\n", result, check(ths->table, ths->word[i]));
+        if(!result || strcmp(result, ths->def[i]) != 0){
             printf("Error: excpected:\n %s -- %s, but \n %s -- %s", ths->word[i], ths->def[i], ths->word[i], result);
         }
     }

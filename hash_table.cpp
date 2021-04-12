@@ -38,7 +38,7 @@ static inline void update_load_factor(Hash_table* ths){
 
 
 
-static unsigned long long hash_64(const char* line){
+extern "C" unsigned long long hash_64(const char* line){
     
     unsigned long long hash = 0;
 
@@ -52,6 +52,11 @@ static unsigned long long hash_64(const char* line){
 
 }
 
+
+extern "C"  int str_cmp(const char* a, const char* b){
+    return strcmp(a, b);
+
+}
 
 
 
@@ -131,10 +136,13 @@ void insert(Hash_table* ths, const char* key, const char* value){
 
 
 
+
 bool get(Hash_table* ths, const char* key, const char** result){
 
     size_t index = hash_64(key)%(ths->bucket_count);
     
+
+
     List* ptr = ths->data[index]; 
 
     if(!ptr){
@@ -143,30 +151,15 @@ bool get(Hash_table* ths, const char* key, const char** result){
 
     size_t count = ptr->size;
 
-    // size_t count = 0;
-    /* asm(".intel_syntax noprefix\n"
-         "mov rbx, %2\n"            
-         "shl rbx, 3\n"            
-         "mov rax, [%1]\n"
-         "add rax, rbx\n"            
-         "mov rax, [rax]\n"            
-        
-        //  "add rbx, rax\n"            
-           "add rax, 8\n"            
-         "mov %0, [rax]\n"            
-
-         :"=r"(count)                     
-         :"r"(ths), "r"(index)              
-         : "rax", "rbx"                      
-    );
-// */
-    // printf("%lld %lld\n", res, ths->data[index]->size);
 
     Pair curr = {};
+    
+    // list_get_value_by_index(ptr, 1, &curr);
+    // printf("%p %p\n", check(ths, key, result), curr.key);
+
 
     for(size_t i = 1; i <= count; i++){
         list_get_value_by_index(ptr, i, &curr);
-
 
         if(strcmp(key, curr.key) == 0){
             *result = curr.value;
