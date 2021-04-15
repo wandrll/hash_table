@@ -18,9 +18,10 @@ int main(){
 
     build_hash_table(&dict);
 
-    for(int i = 0; i < 1000; i++){
-        get_test(&dict);
-    }
+    get_correct_test(&dict);
+    
+    get_test(&dict);
+    
 
     unload_dictionary(&dict);
 

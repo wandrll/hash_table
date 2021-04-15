@@ -34,3 +34,5 @@ void build_hash_table(Dictionary* ths);
 bool get_def(Dictionary* ths, const char* word, const char** res);
 
 void get_test(Dictionary* ths);
+
+void get_correct_test(Dictionary* ths);
