@@ -27,7 +27,6 @@ static size_t file_size(const char* file){
 
 void allign_input_buffer(Dictionary* ths, size_t size){
     char* new_buffer = (char*)calloc(size, sizeof(char));
-    // printf("%lld", size);
 
     char* curr = new_buffer;
 
@@ -60,10 +59,6 @@ void allign_input_buffer(Dictionary* ths, size_t size){
 
 
 
-
-
-
-
 static void parse_buffer(Dictionary* ths){
     char* currleft  = ths->buffer;
     char* currright = ths->buffer;
@@ -79,11 +74,10 @@ static void parse_buffer(Dictionary* ths){
             case '=':{
                 *currright = 0;
                 ths->word[curr_word] = currleft;
-                // printf("%s 1: %lld ", currleft, curr_count);
+
                 currright++;
                 currleft = currright;
                 
-                // printf("2: %lld\n", (1 + (curr_count >> 3) + ((curr_count & 7) != 0))*8);
 
                 result += (1 + (curr_count >> 3) + ((curr_count & 7) != 0))*8;
                 curr_count = 0;
@@ -122,8 +116,6 @@ static void parse_buffer(Dictionary* ths){
 void load_dictionary(Dictionary* ths, const char* file){
 
     size_t size = file_size(file);
-    // printf("%lld\n", size);
-
 
     ths->buffer = (char*)calloc(size+1, sizeof(char));        
     assert(ths->buffer != NULL);
@@ -146,7 +138,7 @@ void load_dictionary(Dictionary* ths, const char* file){
 void unload_dictionary(Dictionary* ths){
     
     if(ths->table){
-        destructor(ths->table);
+        hash_table_destructor(ths->table);
     }
 
     free(ths->table);
@@ -174,16 +166,16 @@ void print_dictionary(Dictionary* ths){
 
 void build_hash_table(Dictionary* ths){
     ths->table = (Hash_table*)calloc(1, sizeof(Hash_table));
-    constructor(ths->table);
+    hash_table_constructor(ths->table);
 
     for(int i = 0; i < ths->size; i++){
-        insert(ths->table, ths->word[i], ths->def[i]);
+        hash_table_insert(ths->table, ths->word[i], ths->def[i]);
     }
 
 }
 
 bool get_def(Dictionary* ths, const char* word, const char** res){
-    return get(ths->table, word, res);
+    return hash_table_get(ths->table, word);
 }
 
 void print_lengths(Hash_table* ths){
@@ -201,17 +193,11 @@ void get_test(Dictionary* ths){
     const char* result = NULL;
     for(int i = 0; i < ths->size; i++){
         
-        result = check(ths->table, ths->word[i]);
+        result = hash_table_get(ths->table, ths->word[i]);
 
-        // get_def(ths, ths->word[i], &result);
-        // printf("%s | %s\n", ths->word[i], result);  
-        // printf("%s | %s\n", ths->word[i], check(ths->table, ths->word[i]));
-        // fflush(stdout);
         if(!result || strcmp(result, ths->def[i]) != 0){
             printf("Error: excpected:\n %s -- %s, but \n %s -- %s", ths->word[i], ths->def[i], ths->word[i], result);
         }
     }
-
-    // print_lengths(ths->table);
 
 }

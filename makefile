@@ -14,7 +14,7 @@ list.o: list.cpp list.hpp
 	g++ $(CFLAGS) list.cpp
 
 hash_table.o: hash_table.cpp hash_table.hpp
-	g++ $(CFLAGS) hash_table.cpp -masm=intel -msse4
+	g++ $(CFLAGS) hash_table.cpp -msse4
 
 dictionary.o: dictionary.cpp dictionary.hpp
 	g++ $(CFLAGS) dictionary.cpp

@@ -3,9 +3,7 @@
 
 default rel
 
-global list_get_value_by_index
-
-global check
+global hash_table_get
 
 extern hash_64
 
@@ -17,7 +15,7 @@ section .text
 
 
 
-check:
+hash_table_get:
 
             push r12        ;save r12
             mov r11, rbx    ;save rbx in registers
@@ -58,23 +56,20 @@ check:
 .skip_exit:
 
             mov rbx, [r12 + 8]
-            ; dec rcx
-            ; xor rbx, rbx
-            ; inc rbx
                                 ;for(size_t i = 1; i <= count; i++){
 
-            mov r12, [r12]     ; r12 = ths->data[index]->data
+            mov r12, [r12]      ; r12 = ths->data[index]->data
 
 .begin_loop:
-            add r12, 24
-            mov rdi, [r12]
+            add r12, 24         ;mov in r12 address of ths->data[index]->data[i].key
+            mov rdi, [r12]      ;mov in rdi key
 
-            mov rsi, r9
-            call str_cmp
+            mov rsi, r9         
+            call str_cmp        ;compare keys
             
             cmp rax, 0
-            jne .skip
- 
+            jne .skip           ;if we found exact key
+  
               mov rax, [r12 + 8]
               
               mov rbx, r11
@@ -83,7 +78,7 @@ check:
 
 
 .skip:
-            dec rbx
+            dec rbx             ;if there is no element with unput key - return NULL
             cmp rbx, 0
             jne .begin_loop
 

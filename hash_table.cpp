@@ -7,10 +7,8 @@
 #include "hash_table.hpp"
 #include <immintrin.h>
 
-void constructor(Hash_table* ths){
+void hash_table_constructor(Hash_table* ths){
     ths->data = (List**)calloc(1024, sizeof(List*));
-
-
     ths->load_factor = 0;
     ths->size = 0;
     ths->bucket_count = 1024;
@@ -18,7 +16,6 @@ void constructor(Hash_table* ths){
 }
 
 static void free_buckets(Hash_table* ths){
-
     for(int i = 0; i < ths->bucket_count; i++){
         if(ths->data[i]){
             Delete_List(ths->data[i]);
@@ -26,7 +23,7 @@ static void free_buckets(Hash_table* ths){
     }
 }
 
-void destructor(Hash_table* ths){
+void hash_table_destructor(Hash_table* ths){
     free_buckets(ths);
     free(ths->data);
 }
@@ -49,13 +46,11 @@ extern "C" unsigned long long hash_64(const char* line){
 
     return hash;
 
-
 }
 
 
 extern "C"  int str_cmp(const char* a, const char* b){
     return strcmp(a, b);
-
 }
 
 
@@ -82,10 +77,8 @@ static void resize(Hash_table* ths){
 
                 if(new_data[index]){
                     list_push_back(new_data[index], {curr.key, curr.value});
-
                 }else{
                     new_data[index] = New_List();
-
                     list_push_back(new_data[index], {curr.key, curr.value});
                 }
 
@@ -105,13 +98,13 @@ static void resize(Hash_table* ths){
 
 
 
-void insert(Hash_table* ths, const char* key, const char* value){
+void hash_table_insert(Hash_table* ths, const char* key, const char* value){
 
     size_t index = hash_64(key)%(ths->bucket_count);
 
     const char* res = NULL;
     
-    res = check(ths, key);
+    res = hash_table_get(ths, key);
 
     if(res){
         printf("Error you cant insert %s --%s. There is pair %s -- %s\n",key, value, key, res);
@@ -139,7 +132,7 @@ void insert(Hash_table* ths, const char* key, const char* value){
 
 
 
-
+/*
 bool get(Hash_table* ths, const char* key, const char** result){
 
     size_t index = hash_64(key)%(ths->bucket_count);
@@ -174,4 +167,4 @@ bool get(Hash_table* ths, const char* key, const char** result){
     return false;
 }
 
-
+*/
