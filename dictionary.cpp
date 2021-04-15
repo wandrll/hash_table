@@ -196,7 +196,6 @@ void print_lengths(Hash_table* ths){
     }
 }
 
-extern "C" const char* check(Hash_table* ths, const char* key);
 
 void get_test(Dictionary* ths){
     const char* result = NULL;
@@ -204,8 +203,10 @@ void get_test(Dictionary* ths){
         
         result = check(ths->table, ths->word[i]);
 
-        // bool res = get_def(ths, ths->word[i], &result);
-        // printf("%s | %s\n", result, check(ths->table, ths->word[i]));
+        // get_def(ths, ths->word[i], &result);
+        // printf("%s | %s\n", ths->word[i], result);  
+        // printf("%s | %s\n", ths->word[i], check(ths->table, ths->word[i]));
+        // fflush(stdout);
         if(!result || strcmp(result, ths->def[i]) != 0){
             printf("Error: excpected:\n %s -- %s, but \n %s -- %s", ths->word[i], ths->def[i], ths->word[i], result);
         }

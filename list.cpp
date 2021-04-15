@@ -233,7 +233,21 @@ list_codes list_get_prev_index(List* ls, size_t ind, size_t* res){
     return LIST_OK;
 }
 
+list_codes list_get_value_by_index(List* ls, size_t ind, list_elem* res){
+    IF_DEBUG_ON(
+        if(!list_validation(ls, create_log_data(__FILE__, __FUNCTION__, __LINE__))){
+            return LIST_CORRUPTED;
 
+        }
+    )
+    
+    if(ls->data[ind].prev == -1){
+        return LIST_WRONG_INDEX;
+    }
+
+    *res = ls->data[ind].value;
+    return LIST_OK;
+}
 
 
 list_codes list_get_value_by_position(List* ls, size_t pos, list_elem* res){

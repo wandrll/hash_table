@@ -81,12 +81,12 @@ static void resize(Hash_table* ths){
                 size_t index = hash_64(curr.key)%(ths->bucket_count);
 
                 if(new_data[index]){
-                    list_push_front(new_data[index], {curr.key, curr.value});
+                    list_push_back(new_data[index], {curr.key, curr.value});
 
                 }else{
                     new_data[index] = New_List();
 
-                    list_push_front(new_data[index], {curr.key, curr.value});
+                    list_push_back(new_data[index], {curr.key, curr.value});
                 }
 
             }
@@ -106,28 +106,31 @@ static void resize(Hash_table* ths){
 
 
 void insert(Hash_table* ths, const char* key, const char* value){
+
     size_t index = hash_64(key)%(ths->bucket_count);
 
     const char* res = NULL;
     
-    if(get(ths, key, &res)){
+    res = check(ths, key);
+
+    if(res){
         printf("Error you cant insert %s --%s. There is pair %s -- %s\n",key, value, key, res);
         return;
     }    
 
 
     if(ths->data[index]){
-        list_push_front(ths->data[index], {key, value});
+        list_push_back(ths->data[index], {key, value});
 
     }else{
         ths->data[index] = New_List();
 
-        list_push_front(ths->data[index], {key, value});
+        list_push_back(ths->data[index], {key, value});
     }
     
     ths->size++;
     update_load_factor(ths);
-    
+
     if(ths->load_factor > max_load_factor){
 
         resize(ths);
