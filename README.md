@@ -86,6 +86,7 @@ You can check objump of get function [here](readme_src/not_opt_dump.txt). It loo
 ## Conclusion
 Let's run this programm in VTune Profiler again.
 ![Image alt](https://github.com/wandrll/hash_table/raw/master/readme_src/after.jpg)
-As you can see, perfomance have been massivly increased. Total acceleration is about 1.8 times.  
+As you can see, perfomance have been massivly increased. Total acceleration is about 1.5 times.
+P.S. If i build first version with -O1 flag, i get the same results with accelerated version.
 
 
