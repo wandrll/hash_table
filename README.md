@@ -10,7 +10,7 @@ To start, i have written simple and small hash map (const char*, const char*), w
 As we can see, most of the time is spent on functions get, hash, __strcmp_avx2, list_get_value_by_index. Let's consider them in more detail
 1. get - It is function of hash map, which return value by key if this key is in table
 2. hash - This function calculate hash of string line
-3. __strcmp_avx2 - It is standart strcmp fucntion, and unfortunatly i can't improve perfomnce of it
+3. __strcmp_avx2 - It is standart strcmp fucntion, and unfortunatly i can't improve its perfomance
 4. list_get_value_by_index - Function of my [Double linked list](https://github.com/wandrll/list).
 ## Optimizations
 ### hash
