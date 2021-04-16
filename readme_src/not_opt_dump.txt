@@ -1,0 +1,86 @@
+000000000000360a <_Z3getP10Hash_tablePKcPS2_>:
+    360a:	55                   	push   rbp
+    360b:	48 89 e5             	mov    rbp,rsp
+    360e:	48 83 ec 50          	sub    rsp,0x50
+    3612:	48 89 7d c8          	mov    QWORD PTR [rbp-0x38],rdi
+    3616:	48 89 75 c0          	mov    QWORD PTR [rbp-0x40],rsi
+    361a:	48 89 55 b8          	mov    QWORD PTR [rbp-0x48],rdx
+    361e:	64 48 8b 04 25 28 00 	mov    rax,QWORD PTR fs:0x28
+    3625:	00 00 
+    3627:	48 89 45 f8          	mov    QWORD PTR [rbp-0x8],rax
+    362b:	31 c0                	xor    eax,eax
+    362d:	48 8b 45 c0          	mov    rax,QWORD PTR [rbp-0x40]
+    3631:	48 89 c7             	mov    rdi,rax
+    3634:	e8 1e fb ff ff       	call   3157 <_ZL4hashPKc>
+    3639:	48 8b 55 c8          	mov    rdx,QWORD PTR [rbp-0x38]
+    363d:	48 8b 52 18          	mov    rdx,QWORD PTR [rdx+0x18]
+    3641:	48 89 d1             	mov    rcx,rdx
+    3644:	ba 00 00 00 00       	mov    edx,0x0
+    3649:	48 f7 f1             	div    rcx
+    364c:	48 89 55 e8          	mov    QWORD PTR [rbp-0x18],rdx
+    3650:	48 8b 45 c8          	mov    rax,QWORD PTR [rbp-0x38]
+    3654:	48 8b 50 08          	mov    rdx,QWORD PTR [rax+0x8]
+    3658:	48 8b 45 e8          	mov    rax,QWORD PTR [rbp-0x18]
+    365c:	48 c1 e0 03          	shl    rax,0x3
+    3660:	48 01 d0             	add    rax,rdx
+    3663:	48 8b 00             	mov    rax,QWORD PTR [rax]
+    3666:	48 85 c0             	test   rax,rax
+    3669:	75 0a                	jne    3675 <_Z3getP10Hash_tablePKcPS2_+0x6b>
+    366b:	b8 00 00 00 00       	mov    eax,0x0
+    3670:	e9 ba 00 00 00       	jmp    372f <_Z3getP10Hash_tablePKcPS2_+0x125>
+    3675:	48 8b 45 c8          	mov    rax,QWORD PTR [rbp-0x38]
+    3679:	48 8b 50 08          	mov    rdx,QWORD PTR [rax+0x8]
+    367d:	48 8b 45 e8          	mov    rax,QWORD PTR [rbp-0x18]
+    3681:	48 c1 e0 03          	shl    rax,0x3
+    3685:	48 01 d0             	add    rax,rdx
+    3688:	48 8b 00             	mov    rax,QWORD PTR [rax]
+    368b:	48 8b 40 08          	mov    rax,QWORD PTR [rax+0x8]
+    368f:	48 89 45 f0          	mov    QWORD PTR [rbp-0x10],rax
+    3693:	48 c7 45 e0 01 00 00 	mov    QWORD PTR [rbp-0x20],0x1
+    369a:	00 
+    369b:	48 8b 45 e0          	mov    rax,QWORD PTR [rbp-0x20]
+    369f:	48 3b 45 f0          	cmp    rax,QWORD PTR [rbp-0x10]
+    36a3:	0f 87 81 00 00 00    	ja     372a <_Z3getP10Hash_tablePKcPS2_+0x120>
+    36a9:	48 c7 45 d8 00 00 00 	mov    QWORD PTR [rbp-0x28],0x0
+    36b0:	00 
+    36b1:	48 8b 45 c8          	mov    rax,QWORD PTR [rbp-0x38]
+    36b5:	48 8b 50 08          	mov    rdx,QWORD PTR [rax+0x8]
+    36b9:	48 8b 45 e8          	mov    rax,QWORD PTR [rbp-0x18]
+    36bd:	48 c1 e0 03          	shl    rax,0x3
+    36c1:	48 01 d0             	add    rax,rdx
+    36c4:	48 8b 00             	mov    rax,QWORD PTR [rax]
+    36c7:	48 8d 55 d8          	lea    rdx,[rbp-0x28]
+    36cb:	48 8b 4d e0          	mov    rcx,QWORD PTR [rbp-0x20]
+    36cf:	48 89 ce             	mov    rsi,rcx
+    36d2:	48 89 c7             	mov    rdi,rax
+    36d5:	e8 15 e1 ff ff       	call   17ef <_Z23list_get_value_by_indexP4ListmPPKc>
+    36da:	48 8b 55 d8          	mov    rdx,QWORD PTR [rbp-0x28]
+    36de:	48 8b 45 c0          	mov    rax,QWORD PTR [rbp-0x40]
+    36e2:	48 89 d6             	mov    rsi,rdx
+    36e5:	48 89 c7             	mov    rdi,rax
+    36e8:	e8 03 da ff ff       	call   10f0 <strcmp@plt>
+    36ed:	85 c0                	test   eax,eax
+    36ef:	75 2f                	jne    3720 <_Z3getP10Hash_tablePKcPS2_+0x116>
+    36f1:	48 8b 45 c8          	mov    rax,QWORD PTR [rbp-0x38]
+    36f5:	48 8b 10             	mov    rdx,QWORD PTR [rax]
+    36f8:	48 8b 45 e8          	mov    rax,QWORD PTR [rbp-0x18]
+    36fc:	48 c1 e0 03          	shl    rax,0x3
+    3700:	48 01 d0             	add    rax,rdx
+    3703:	48 8b 00             	mov    rax,QWORD PTR [rax]
+    3706:	48 8b 55 b8          	mov    rdx,QWORD PTR [rbp-0x48]
+    370a:	48 8b 4d e0          	mov    rcx,QWORD PTR [rbp-0x20]
+    370e:	48 89 ce             	mov    rsi,rcx
+    3711:	48 89 c7             	mov    rdi,rax
+    3714:	e8 d6 e0 ff ff       	call   17ef <_Z23list_get_value_by_indexP4ListmPPKc>
+    3719:	b8 01 00 00 00       	mov    eax,0x1
+    371e:	eb 0f                	jmp    372f <_Z3getP10Hash_tablePKcPS2_+0x125>
+    3720:	48 83 45 e0 01       	add    QWORD PTR [rbp-0x20],0x1
+    3725:	e9 71 ff ff ff       	jmp    369b <_Z3getP10Hash_tablePKcPS2_+0x91>
+    372a:	b8 00 00 00 00       	mov    eax,0x0
+    372f:	48 8b 75 f8          	mov    rsi,QWORD PTR [rbp-0x8]
+    3733:	64 48 2b 34 25 28 00 	sub    rsi,QWORD PTR fs:0x28
+    373a:	00 00 
+    373c:	74 05                	je     3743 <_Z3getP10Hash_tablePKcPS2_+0x139>
+    373e:	e8 6d d9 ff ff       	call   10b0 <__stack_chk_fail@plt>
+    3743:	c9                   	leave  
+    3744:	c3                   	ret    
