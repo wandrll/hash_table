@@ -7,25 +7,42 @@
 #include "hash_table.hpp"
 #include <immintrin.h>
 
-void hash_table_constructor(Hash_table* ths){
+Hash_codes hash_table_constructor(Hash_table* ths){
     ths->data = (List**)calloc(1024, sizeof(List*));
+    
+    if(ths->data == NULL){
+        return  HASH_CONSTRUCTOR_ERROR;
+    }
+
     ths->load_factor = 0;
     ths->size = 0;
     ths->bucket_count = 1024;
 
+    return HASH_OK;
 }
 
-static void free_buckets(Hash_table* ths){
+static Hash_codes free_buckets(Hash_table* ths){
+    if(ths->data == NULL){
+        return HASH_DESTRUCTOR_ERROR;
+    }
+
     for(int i = 0; i < ths->bucket_count; i++){
         if(ths->data[i]){
             Delete_List(ths->data[i]);
         }
     }
+
+    return HASH_OK;
 }
 
-void hash_table_destructor(Hash_table* ths){
-    free_buckets(ths);
+Hash_codes hash_table_destructor(Hash_table* ths){
+    
+    if(free_buckets(ths) != HASH_OK){
+        return HASH_DESTRUCTOR_ERROR;
+    }
+
     free(ths->data);
+    return HASH_OK;
 }
 
 
@@ -56,8 +73,12 @@ extern "C"  int str_cmp(const char* a, const char* b){
 
 
 
-static void resize(Hash_table* ths){
+static Hash_codes resize(Hash_table* ths){
     List** new_data   = (List**)calloc(ths->bucket_count*2, sizeof(List*));
+    
+    if(new_data == NULL){
+        return HASH_RESIZE_ERROR;
+    }
 
     size_t count = ths->bucket_count;
     ths->bucket_count = ths->bucket_count*2;
@@ -79,6 +100,11 @@ static void resize(Hash_table* ths){
                     list_push_back(new_data[index], {curr.key, curr.value});
                 }else{
                     new_data[index] = New_List();
+                    
+                    if(new_data[index] == NULL){
+                        return HASH_RESIZE_ERROR;
+                    }
+
                     list_push_back(new_data[index], {curr.key, curr.value});
                 }
 
@@ -92,13 +118,13 @@ static void resize(Hash_table* ths){
     ths->data = new_data;
     update_load_factor(ths);
 
-
+    return HASH_OK;
 }
 
 
 
 
-void hash_table_insert(Hash_table* ths, const char* key, const char* value){
+Hash_codes hash_table_insert(Hash_table* ths, const char* key, const char* value){
 
     size_t index = hash_64(key)%(ths->bucket_count);
 
@@ -108,7 +134,7 @@ void hash_table_insert(Hash_table* ths, const char* key, const char* value){
 
     if(res){
         printf("Error you cant insert %s --%s. There is pair %s -- %s\n",key, value, key, res);
-        return;
+        return HASH_INSERT_ERROR;
     }    
 
 
@@ -117,6 +143,10 @@ void hash_table_insert(Hash_table* ths, const char* key, const char* value){
 
     }else{
         ths->data[index] = New_List();
+        
+        if(ths->data[index] == NULL){
+            return HASH_INSERT_ERROR;
+        }
 
         list_push_back(ths->data[index], {key, value});
     }
@@ -126,8 +156,13 @@ void hash_table_insert(Hash_table* ths, const char* key, const char* value){
 
     if(ths->load_factor > max_load_factor){
 
-        resize(ths);
+        if(resize(ths) != HASH_OK){
+            return HASH_RESIZE_ERROR;
+        }
     }
+
+
+    return HASH_OK;
 }
 
 
