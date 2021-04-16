@@ -9,12 +9,12 @@ Since this is an educational project, i use zero opitimisation level (-O0 flag i
 To start, i have written simple and small hash map (const char*, const char*), which supports insert and get operations. Then, i have added external interface, which allows load dictionary from file, based on this it builds hash map, and alos there is method to get definition of a word. I have decided, that once you load dictionary, you will not remove elements from it, maybe only add, so i measure time of getting definition of the word. In tests i get defenition of every word in dictionary 1000 times. I have run my programm with Intel VTune Profiler and recieved some inforamtion about perfomance
 ![Image alt](https://github.com/wandrll/hash_table/raw/master/readme_src/before.jpg)
 As we can see, most of the time is spent on functions get, hash, __strcmp_avx2, list_get_value_by_index. Let's consider them in more detail
-1. get - It is function of hash map, which return value by key if this key is in table
-2. hash - This function calculate hash of string line
-3. __strcmp_avx2 - It is standart strcmp fucntion, and unfortunatly i can't improve its perfomance
-4. list_get_value_by_index - Function of my [Double linked list](https://github.com/wandrll/list).
+1. get() - It is function of hash map, which return value by key if this key is in table
+2. hash() - This function calculate hash of string line
+3. __strcmp_avx2() - It is standart strcmp fucntion, and unfortunatly i can't improve its perfomance
+4. list_get_value_by_index() - Function of my [Double linked list](https://github.com/wandrll/list).
 ## Optimizations
-### hash
+### hash()
 I have decided to start with the easiest function to optimize. This function was pretty simple and was passisg all characters one by one and calculated hash.
 
 ```c++
@@ -51,7 +51,7 @@ extern "C" unsigned long long hash_64(const char* line){
 
 ```
 I have declared this function as extern "C", becuase later i will call it in assembler function
-### get && list_get_value_by_index
+### get() && list_get_value_by_index()
 First of all, function list_get_value_by_index uses only in function get. Secondly, the main problem in perfomance here is a lot of jumps by pointers in different memory areas, so i have decided to rewrite this function on assmebler, in order to reduce as much as i can memory access operations. 
 ```c++
 bool get(Hash_table* ths, const char* key, const char** result){
