@@ -2,6 +2,8 @@
 First of all, it is an educational project for the second term of MIPT. Secondly, excuse me for my english 
 ## Task
 The main target is to write a hash map, and then use a profiler to find bottlenecks and improve the perfomance
+## Hardware
+CPU - Intel core i5-8300h
 ## Requirments
 1. CPU with _mm_crc32_u64 instruction compatibility
 1. NASM (The Netwide Assembler)
