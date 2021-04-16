@@ -1,6 +1,6 @@
 # Accelerated Hash map
 First of all, it is an educational project for the second term of MIPT. Secondly, excuse me for my english 
-## Requirments:
+## Requirments
 1. CPU with _mm_crc32_u64 instruction compatibility
 1. NASM (The Netwide Assembler)
 
