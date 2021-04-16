@@ -17,7 +17,7 @@ As we can see, most of the time is spent on functions get, hash, __strcmp_avx2, 
 2. hash() - This function calculate hash of string line
 3. __strcmp_avx2() - It is standart strcmp fucntion, and unfortunatly i can't improve its perfomance
 4. list_get_value_by_index() - Function of my [Double linked list](https://github.com/wandrll/list).
-## Optimizations
+## Analysis
 ### hash()
 I have decided to start with the easiest function to optimize. This function was pretty simple and was passisg all characters one by one and calculated hash.
 
