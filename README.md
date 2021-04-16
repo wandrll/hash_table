@@ -1,7 +1,7 @@
 # Accelerated Hash map
 First of all, it is an educational project for the second term of MIPT. Secondly, excuse me for my english 
 ## Task
-The main target is to write a hash map, and then use a profiler to find bottlenecks and improve the perfomance
+The main target is to write a hash map, and then use a profiler to find bottlenecks and improve the perfomance. I have choosen hash map with separate chaining.
 ## Hardware
 CPU - Intel core i5-8300h
 ## Requirments
