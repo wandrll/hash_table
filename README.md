@@ -3,7 +3,8 @@ First of all, it is an educational project for the second term of MIPT. Secondly
 ## Requirments
 1. CPU with _mm_crc32_u64 instruction compatibility
 1. NASM (The Netwide Assembler)
-
+## Small addition
+Since this is an educational project, i usen zero opitimisation level (-O0 flag in gcc), otherwise the difficulty of the task increases significantly.
 ## First step
 To start, i have written simple and small hash map (const char*, const char*), which supports insert and get operations. Then, i have added external interface, which allows load dictionary from file, based on this it builds hash map, and alos there is method to get definition of a word. I have decided, that once you load dictionary, you will not remove elements from it, maybe only add, so i measure time of getting definition of the word. In tests i get defenition of every word in dictionary 1000 times. I have run my programm with Intel VTune Profiler and recieved some inforamtion about perfomance
 ![Image alt](https://github.com/wandrll/hash_table/raw/master/readme_src/before.jpg)
