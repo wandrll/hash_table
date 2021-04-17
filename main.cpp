@@ -18,6 +18,8 @@ int main(){
 
     build_hash_table(&dict);
 
+    // print_dictionary(&dict);
+
     get_correct_test(&dict);
     
     get_test(&dict);

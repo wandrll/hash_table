@@ -18,7 +18,7 @@ section .text
 hash_table_get:
 
             push r12        ;save r12
-            mov r11, rbx    ;save rbx in registers
+            push rbx    ;save rbx in registers
 
 
             mov r9, rsi     ;save input in registers    
@@ -44,7 +44,7 @@ hash_table_get:
 
             cmp r12, 0
             jne .skip_exit    ;    if(!ptr){
-                mov rbx, r11      ;        return false;
+                pop rbx      ;        return false;
                 pop r12
                              ;    }
                 mov rax, 0
@@ -61,28 +61,28 @@ hash_table_get:
             mov r12, [r12]      ; r12 = ths->data[index]->data
 
 .begin_loop:
-            add r12, 24         ;mov in r12 address of ths->data[index]->data[i].key
+            lea r12, [r12 + 24]         ;mov in r12 address of ths->data[index]->data[i].key
             mov rdi, [r12]      ;mov in rdi key
 
             mov rsi, r9         
+
             call str_cmp        ;compare keys
-            
+
             cmp rax, 0
             jne .skip           ;if we found exact key
   
               mov rax, [r12 + 8]
               
-              mov rbx, r11
+              pop rbx
               pop r12 
               ret
 
 
 .skip:
             dec rbx             ;if there is no element with unput key - return NULL
-            cmp rbx, 0
             jne .begin_loop
 
-            mov rbx, r11
+            pop rbx
             pop r12
 
             mov rax, 0

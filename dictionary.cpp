@@ -190,8 +190,10 @@ void print_lengths(Hash_table* ths){
 
 
 void get_correct_test(Dictionary* ths){
+
     const char* result = NULL;
         for(int i = 0; i < ths->size; i++){
+
 
             result = hash_table_get(ths->table, ths->word[i]);
 
