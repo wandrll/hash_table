@@ -67,6 +67,7 @@ extern "C" unsigned long long hash_64(const char* line){
 
 
 extern "C"  int str_cmp(const char* a, const char* b){
+    // return 0;
     return strcmp(a, b);
 }
 

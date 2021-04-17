@@ -21,7 +21,6 @@ struct Hash_table{
     long long size;
     long long bucket_count;
 
-    size_t* sizes;
 
     double load_factor;
 

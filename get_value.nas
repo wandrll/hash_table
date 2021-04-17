@@ -14,14 +14,13 @@ section .text
 
 
 
-
 hash_table_get:
 
-            push r12        ;save r12
-            push rbx    ;save rbx in registers
+            push r12        
+            push rbx        
 
 
-            mov r9, rsi     ;save input in registers    
+            mov r9, rsi      ;save input in registers    
             mov r12, rdi     ;save input in registers
             mov rdi, rsi
 
@@ -69,7 +68,7 @@ hash_table_get:
             call str_cmp        ;compare keys
 
             cmp rax, 0
-            jne .skip           ;if we found exact key
+            jne .skip           ;if we found exact key we should return value
   
               mov rax, [r12 + 8]
               
