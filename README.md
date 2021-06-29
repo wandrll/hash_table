@@ -87,12 +87,11 @@ bool get(Hash_table* ths, const char* key, const char** result){
 }
 ```
 You can check objump of get function [here](readme_src/not_opt_dump.txt). It looks pretty ugly and contains a lot of memory access operations, so i have rewritten this function on [assembler](get_value.nas). Instead of using function list_get_value_by_index, i use knowledge about internal structure of my list, so i calculate address only once, and after that i just move pointer by increasing. Also, new function returns value, instead of flag, and becuase value is const char*, if there is no element with key, this function returns NULL
-
+## Second step
+After that i have realized, that get function is my main obstacle on acceleration. So, i fully rewrite it on assembler.
+## Third step
+Now i can improve this even more by reducing functionality. I have added limitation on key's lengths. If keys contain no more than 32 bytes, i can store them in 256-bit AVX register, and significantly improve strcmp speed.
 ## Conclusion
-Let's run this programm in VTune Profiler again.
-![Image alt](https://github.com/wandrll/hash_table/raw/master/readme_src/after.jpg)
-As you can see, perfomance have been massivly increased. Total acceleration is about 1.5 times.
-
-P.S. If i build first version with -O1 flag, i get the same results which i get with accelerated version.
-
+In the end, i have improved speed by 30% compare with -O3. 
+(TO DO add more screenshoots)
 
