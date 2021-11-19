@@ -5,7 +5,7 @@ The main target is to write a hash map, and then use a profiler to find bottlene
 ## Hardware
 CPU - Intel core i5-8300h
 ## Requirments
-1. CPU with _mm_crc32_u64 instruction compatibility
+1. CPU with AVX-2 instruction set compatibility
 1. NASM (The Netwide Assembler)
 ## Small addition
 Since this is an educational project, i use zero opitimisation level (-O0 flag in gcc), otherwise the difficulty of the task increases significantly.
